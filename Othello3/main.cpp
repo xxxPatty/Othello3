@@ -1485,7 +1485,8 @@ public:
             UctNode* addChild(OthelloBoard board, int index){
                 UctNode* node = new UctNode();
                 node->init(this, board, unexamined[index]);
-                unexamined.erase(next(unexamined.begin(), index), next(unexamined.begin(), index+1));
+                //unexamined.erase(next(unexamined.begin(), index), next(unexamined.begin(), index+1));
+                unexamined.erase(unexamined.begin()+index, unexamined.begin()+index+1);
                 children.push_back(node);
                 return node;
             }
@@ -1678,16 +1679,16 @@ public:
 
 
 //test function
-void MCTSvsMinmax(){
+void AIvsAI(){
     string gameboard, action;
     
-    MinimaxPlayer player1 = MinimaxPlayer(1, 1);
-    AlphaBetaPruningPlayer player2;
+    AlphaBetaPruningPlayer player1;
+    MCTSPlayer player2;
     player2.playerColor=2;
-    //player1.playerColor=1;
+    player1.playerColor=1;
     gameboard="++++++++++++++OX++++XO++++++++++++++";   //intial gameboard
     player2.gameboard=gameboard;
-    //player1.gameboard=gameboard;
+    player1.gameboard=gameboard;
     while(!gameOver(gameboard)){
         cout<<"player2 result: "<<endl;
         for(int i=0;i<6;i++){
@@ -1707,20 +1708,20 @@ void MCTSvsMinmax(){
                 flipPieces(&new_board2, gameboard, 2, action2);
                 gameboard=new_board2;
                 player2.gameboard=gameboard;
-                //player1.gameboard=gameboard;
+                player1.gameboard=gameboard;
             }else{
                 cout<<"player2 pass"<<endl;
             }
         }else{
             cout<<"Wait for player1."<<endl;
             //player1
-            string action1=player1.action(gameboard);
+            string action1=player1.action();
             cout<<"player1 action: "<<action1<<endl;
             string new_board=gameboard;
             flipPieces(&new_board, gameboard, 1, action1);
             gameboard=new_board;
             player2.gameboard=gameboard;
-            //player1.gameboard=gameboard;
+            player1.gameboard=gameboard;
             cout<<"player1 result: "<<endl;
             for(int i=0;i<6;i++){
                 for(int j=0;j<6;j++){
@@ -1737,7 +1738,7 @@ void MCTSvsMinmax(){
                 flipPieces(&new_board2, gameboard, 2, action2);
                 gameboard=new_board2;
                 player2.gameboard=gameboard;
-                //player1.gameboard=gameboard;
+                player1.gameboard=gameboard;
             }else{
                 cout<<"player2 pass"<<endl;
             }
@@ -1861,7 +1862,7 @@ void AlphaBetaPruningPlayervsHuman(){
 int main(int argc, const char * argv[]) {
     srand (time(NULL));
     
-    AlphaBetaPruningPlayervsHuman();
-//    MCTSvsMinmax();
+//    AlphaBetaPruningPlayervsHuman();
+    AIvsAI();
     return 0;
 }
