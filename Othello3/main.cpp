@@ -1652,7 +1652,7 @@ public:
         }
         return bestValue;
     }
-};
+};  //BestPlayer
 class MinimaxPlayer{
 public:
     int playerTile;
@@ -1772,7 +1772,7 @@ void printGameboard(string gameboard){
         cout<<endl;
     }
 }
-void AIAction(MCTSPlayer AIplayer, string &gameboard, int AITurn){
+void AIAction(AlphaBetaPruningPlayer AIplayer, string &gameboard, int AITurn){
     if(passTurn(gameboard, AITurn)){
         cout<<"MCTSPlayer pass"<<endl;
     }else{
@@ -1787,7 +1787,7 @@ void AIAction(MCTSPlayer AIplayer, string &gameboard, int AITurn){
         printGameboard(gameboard);
     }
 }
-void humanAction(string &gameboard, MCTSPlayer &AIplayer, int humanTurn){
+void humanAction(string &gameboard, AlphaBetaPruningPlayer &AIplayer, int humanTurn){
     if(passTurn(gameboard, humanTurn)){
         cout<<"HumanPlayer pass"<<endl;
     }else{
@@ -1807,10 +1807,10 @@ void humanAction(string &gameboard, MCTSPlayer &AIplayer, int humanTurn){
         printGameboard(gameboard);
     }
 }
-void MCTSvsHuman(){
+void AlphaBetaPruningPlayervsHuman(){
     string gameboard, action;
     int AIOrder=0;
-    MCTSPlayer AIPlayer;
+    AlphaBetaPruningPlayer AIPlayer;
     gameboard="++++++++++++++OX++++XO++++++++++++++";   //intial gameboard
     AIPlayer.gameboard=gameboard;
     
@@ -1861,7 +1861,7 @@ void MCTSvsHuman(){
 int main(int argc, const char * argv[]) {
     srand (time(NULL));
     
-    MCTSvsHuman();
+    AlphaBetaPruningPlayervsHuman();
 //    MCTSvsMinmax();
     return 0;
 }
