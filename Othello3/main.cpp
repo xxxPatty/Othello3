@@ -17,6 +17,7 @@
 #include <cmath>
 using namespace std;
 
+//function
 int countFlipPieces(string gameboard, int playerColor, string grid, int direction){
     // 0上 1右上 2右 3右下 4下 5左下 6左 7左上 direction方向
     int row= grid[0]- 'A', col= grid[1]- 'a';
@@ -494,71 +495,6 @@ string flipPieces(string gameboard, int playerColor, string grid){
 }
 
 //player class
-class minimaxSearchWithAlphaBetaPlayer{
-public:
-    string gameboard;
-    int playerColor;
-    
-    string action(){
-        if(!passTurn(gameboard, playerColor)){
-            int index=minimaxSearchWithAlphaBeta(gameboard, playerColor, 10, playerColor, -INT_MAX, INT_MAX).second;
-            string action="";
-            action=action+char(index/6+'A')+char(index%6+'a');
-            return action;
-        }else{
-            return "pass";
-        }
-    }
-    pair<int, int> minimaxSearchWithAlphaBeta(string gameboard, int playerColor, int depth, int myTurn, int a, int b){
-        int i, temp2=-2, index=-1;
-        if(depth==0 || gameOver(gameboard)){
-            return pair<int, int> (heuristicScore(gameboard, playerColor), index);
-        }
-        if(playerColor==myTurn){    //MAX_Player
-            for(i=0;i<36;i++){
-                string temp="";
-                temp=temp+char(i/6+'A')+char(i%6+'a');
-                if(gameboard[i]=='+' && isValidMove(gameboard, playerColor, temp)) {
-                    string new_board="";
-                    new_board=gameboard;
-                    flipPieces(&new_board, gameboard, playerColor, temp);
-                    if((temp2=(minimaxSearchWithAlphaBeta(new_board, playerColor == 1 ? 2 : 1, depth-1, myTurn, a, b).first))>a) {
-                        a=temp2;
-                        index=i;
-                    }
-                    if(b<=a) break;
-                }
-            }
-            if(i==36){  //pass
-                if((temp2=(minimaxSearchWithAlphaBeta(gameboard, playerColor == 1 ? 2 : 1, depth-1, myTurn, a, b).first))>a) {
-                    a=temp2;    //?
-                }
-            }
-            return pair<int, int>(a, index);
-        }else{      //MIN_Player
-            for(i=0;i<36;i++){
-                string temp="";
-                temp=temp+char(i/6+'A')+char(i%6+'a');
-                if(gameboard[i]=='+' && isValidMove(gameboard, playerColor, temp)) {
-                    string new_board="";
-                    new_board=gameboard;
-                    flipPieces(&new_board, gameboard, playerColor, temp);
-                    if((temp2=minimaxSearchWithAlphaBeta(new_board, playerColor == 1 ? 2 : 1, depth-1, myTurn, a, b).first)<b) {
-                        b=temp2;    //?
-                    }
-                    if(b<=a) break;
-                }
-            }
-            if(i==36){  //pass
-                if((temp2=(minimaxSearchWithAlphaBeta(gameboard, playerColor == 1 ? 2 : 1, depth-1, myTurn, a, b).first))<b) {
-                    b=temp2;
-                    index=i;
-                }
-            }
-            return pair<int, int>(b, index);
-        }
-    }
-};
 class MCTSPlayer{
 public:
     string gameboard;
@@ -1107,7 +1043,7 @@ public:
             }
         };
     };
-};
+};  
 class PVSearch{
 public:
     string gameboard;
@@ -1321,7 +1257,6 @@ public:
     }
 }
 };
-
 class RandomPlayer{
 public:
     int playerTile;
