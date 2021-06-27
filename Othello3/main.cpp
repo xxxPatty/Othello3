@@ -1,266 +1,82 @@
 //
 //  main.cpp
-//  Othello3
+//  Othello
 //
-//  Created by 林湘羚 on 2021/6/9.
+//  Created by 林湘羚 on 2021/5/28.
 //
 
 #include <iostream>
-#include <vector>
+#include <utility>
+#include <map>
+#include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <algorithm>    
-#include <map>
+#include <vector>
+#include <algorithm>
+#include <climits>
+#include <cmath>
 using namespace std;
 
 int countFlipPieces(string gameboard, int playerColor, string grid, int direction){
-    int i, j, row, col, count=0;
-    bool legal=false;
-    row = grid[0] - 'A';
-    col = grid[1] - 'a';
-    if(direction==0){   //上
-        if(row-1>0){
-            if(playerColor==1){
-                if(gameboard[(row-1)*6+col]=='O'){
-                    for(i=row-1;i>=0;i--){
-                        if(gameboard[i*6+col]=='O'){
-                            count++;
-                        }else if(gameboard[i*6+col]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[(row-1)*6+col]=='X'){
-                    for(i=row-1;i>=0;i--){
-                        if(gameboard[i*6+col]=='X'){
-                            count++;
-                        }else if(gameboard[i*6+col]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(direction==1){ //右上
-        if(row-1>0 && col+1<5){
-            if(playerColor==1){
-                if(gameboard[(row-1)*6+(col+1)]=='O'){
-                    for(i=row-1, j=col+1; (i>=0) && (j<6); i--, j++){
-                        if(gameboard[i*6+j]=='O'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[(row-1)*6+(col+1)]=='X'){
-                    for(i=row-1, j=col+1; (i>=0) && (j<6); i--, j++){
-                        if(gameboard[i*6+j]=='X'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(direction==2){ //右
-        if(col+1<5){
-            if(playerColor==1){
-                if(gameboard[row*6+(col+1)]=='O'){
-                    for(j=col+1;j<6;j++){
-                        if(gameboard[row*6+j]=='O'){
-                            count++;
-                        }else if(gameboard[row*6+j]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[row*6+(col+1)]=='X'){
-                    for(j=col+1;j<6;j++){
-                        if(gameboard[row*6+j]=='X'){
-                            count++;
-                        }else if(gameboard[row*6+j]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(direction==3){ //右下
-        if(row+1<5 && col+1<5){
-            if(playerColor==1){
-                if(gameboard[(row+1)*6+(col+1)]=='O'){
-                    for(i=row+1, j=col+1; (i<6) && (j<6); i++, j++){
-                        if(gameboard[i*6+j]=='O'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[(row+1)*6+(col+1)]=='X'){
-                    for(i=row+1, j=col+1; (i<6) && (j<6); i++, j++){
-                        if(gameboard[i*6+j]=='X'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(direction==4){ //下
-        if(row+1<5){
-            if(playerColor==1){
-                if(gameboard[(row+1)*6+col]=='O'){
-                    for(i=row+1;i<6;i++){
-                        if(gameboard[i*6+col]=='O'){
-                            count++;
-                        }else if(gameboard[i*6+col]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[(row+1)*6+col]=='X'){
-                    for(i=row+1;i<6;i++){
-                        if(gameboard[i*6+col]=='X'){
-                            count++;
-                        }else if(gameboard[i*6+col]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        
-    }else if(direction==5){ //左下
-        if(row+1<5 && col-1>0){
-            if(playerColor==1){
-                if(gameboard[(row+1)*6+(col-1)]=='O'){
-                    for(i=row+1, j=col-1; (i<6) && (j>=0); i++, j--){
-                        if(gameboard[i*6+j]=='O'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[(row+1)*6+(col-1)]=='X'){
-                    for(i=row+1, j=col-1; (i<6) && (j>=0); i++, j--){
-                        if(gameboard[i*6+j]=='X'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(direction==6){ //左
-        if(col-1>0){
-            if(playerColor==1){
-                if(gameboard[row*6+(col-1)]=='O'){
-                    for(j=col-1;j>=0;j--){
-                        if(gameboard[row*6+j]=='O'){
-                            count++;
-                        }else if(gameboard[row*6+j]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[row*6+(col-1)]=='X'){
-                    for(j=col-1;j>=0;j--){
-                        if(gameboard[row*6+j]=='X'){
-                            count++;
-                        }else if(gameboard[row*6+j]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }else if(direction==7){ //左上
-        if(row-1>0 && col-1>0){
-            if(playerColor==1){
-                if(gameboard[(row-1)*6+(col-1)]=='O'){
-                    for(i=row-1, j=col-1; (i>=0) && (j>=0); i--, j--){
-                        if(gameboard[i*6+j]=='O'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='X'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }else if(playerColor==2){
-                if(gameboard[(row-1)*6+(col-1)]=='X'){
-                    for(i=row-1, j=col-1; (i>=0) && (j>=0); i--, j--){
-                        if(gameboard[i*6+j]=='X'){
-                            count++;
-                        }else if(gameboard[i*6+j]=='O'){
-                            legal=true;
-                            break;
-                        }else{
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+    // 0上 1右上 2右 3右下 4下 5左下 6左 7左上 direction方向
+    int row= grid[0]- 'A', col= grid[1]- 'a';
+    char opponent, player;
+    if(playerColor== 1){
+        opponent= 'O';
+        player= 'X';
     }
-    return legal ? count : 0;
+    else{
+        opponent= 'X';
+        player= 'O';
+    }
+    
+    int index= row* 6+ col;
+    int Xstep= 0, Ystep= 0, counttt= 0;
+    
+    if(direction== 0){ // 上
+        Xstep= -1;
+        Ystep= 0;
+    }
+    else if(direction== 1){ // 右上
+        Xstep= -1;
+        Ystep= 1;
+    }
+    else if(direction== 2){ // 右
+        Xstep= 0;
+        Ystep= 1;
+    }
+    else if(direction== 3){ // 右下
+        Xstep= 1;
+        Ystep= 1;
+    }
+    else if(direction== 4){ // 下
+        Xstep= 1;
+        Ystep= 0;
+    }
+    else if(direction== 5){ // 左下
+        Xstep= 1;
+        Ystep= -1;
+    }
+    else if(direction== 6){ // 左
+        Xstep= 0;
+        Ystep= -1;
+    }
+    else if(direction== 7){ // 左上
+        Xstep= -1;
+        Ystep= -1;
+    }
+    
+    row+= Xstep; col+= Ystep;
+    index= row* 6+ col;
+    
+    while(row>= 0&& row< 6&& col>= 0&& col< 6){
+        if(gameboard[index]== player) return counttt;
+        else if(gameboard[index]== opponent) counttt++;
+        else return 0;
+        row+= Xstep; col+= Ystep;
+        index= row* 6+ col;
+    }
+    return 0;
 }
 void flipPieces(string* new_board, string org_board, int playerColor, string grid) {
     int i, j, row, col, count, tempRow, tempCol;
@@ -399,86 +215,6 @@ bool gameOver(string gameboard){
 int heuristicScore(string gameboard, int playerColor){
     return countColorPieces(gameboard, playerColor) - countColorPieces(gameboard, playerColor==1 ? 2 : 1);
 }
-int countFP(string gameboard, int player, int grid, int dir){
-    int row, col, R, C, color, count = -1;
-    char me, you;
-    int d[8][2] = {{-1,0}, {-1,1}, {0,1}, {1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}};
-    
-    row = grid / 6;
-    col = grid % 6;
-    
-    if(player == 1){
-        me = 'X';
-        you = 'O';
-    }
-    else if(player == 2){
-        me = 'O';
-        you = 'X';
-    }
-    
-    while(gameboard[grid] != me){
-        row += d[dir][0];
-        col += d[dir][1];
-        grid = (row)*6 + col;
-        if(row > 5 || row < 0 || col > 5 || col < 0 || gameboard[grid] == '+'){
-            count = 0;
-            break;
-        }
-        count++;
-    }
-    
-    return count;
-}
-bool isVM(string gameboard, int player, int grid){
-    int count = 0;
-    for(int i = 0; i <= 7; i++){
-        if(countFP(gameboard, player, grid, i) != 0) {
-            count++;
-        }
-    }
-    if(count != 0) return true;
-    else return false;
-}
-string fP(string gameboard, int player, int grid, int dir){
-    int row, col, R, C, count = -1, original;
-    char me, you;
-    string newboard = gameboard;
-    int d[8][2] = {{-1,0}, {-1,1}, {0,1}, {1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}};
-    
-    row = grid / 6;
-    col = grid % 6;
-    
-    if(player == 1){
-        me = 'X';
-        you = 'O';
-    }
-    else if(player == 2){
-        me = 'O';
-        you = 'X';
-    }
-    
-    original = (row+d[dir][0])*6 + (col+d[dir][1]);
-    newboard[grid] = me;
-    do{
-        row += d[dir][0];
-        col += d[dir][1];
-        grid = (row)*6 + (col);
-        if(row > 5 || row < 0 || col > 5 || col < 0 || gameboard[grid] == '+'){
-            count = 0;
-            while(grid != original){
-                row -= d[dir][0];
-                col -= d[dir][1];
-                grid = (row)*6 + (col);
-                newboard[grid] = you;
-            }
-            break;
-        }
-        newboard[grid] = me;
-        count++;
-    }while(gameboard[grid] != me);
-    
-    return newboard;
-}
 void getDirection_xue(int direction, int* x, int* y) {
     switch(direction) {
         case 1: // 右上 up-right
@@ -549,40 +285,12 @@ string flipPieces_xue(string gameboard, int playerColor, int grid) {
     }
     return newGameboard;
 }
-int countColorPieces_xue(string gameboard, int playerColor) {
-    int count = 0, i;
-    char color;
-    
-    if (playerColor == 1)   color = 'X';
-    else                    color = 'O';
-    
-    for (i = 0; i < gameboard.length(); i++) {
-        if (gameboard[i] == color)  count++;
-    }
-    
-    return count;
-}
 bool isValidMove_xue(string gameboard, int playerColor, int grid) {
     for (int direction = 0; direction < 8; direction++) {
         if (countFlipPieces_xue(gameboard, playerColor, grid, direction) > 0)
             return true;
     }
     return false;
-}
-bool passTurn_xue(string gameboard, int playerColor) {
-    for (int i = 0; i < gameboard.length(); i++) {
-        if (gameboard[i] == '+') {
-            if (isValidMove_xue(gameboard, playerColor, i))
-                return false;
-        }
-    }
-    return true;
-}
-bool gameOver_xue(string gameboard) {
-    return (passTurn_xue(gameboard, 1) && passTurn_xue(gameboard, 2));
-}
-int heuristicScore_xue(string gameboard, int playerColor, int opponentColor) {
-    return (countColorPieces_xue(gameboard, playerColor) - countColorPieces_xue(gameboard, opponentColor));
 }
 
 int num_validMove(string gameboard, int playerColor){
@@ -753,67 +461,7 @@ int heuristicScore(string gameboard, int playerColor, int heuristicChoose){
     cout<< "Choose Error"<< endl;
     return -1;
 }
-int countFilpsPieces(string gameboard, int playerColor, string grid, int direction){
-    // 0上 1右上 2右 3右下 4下 5左下 6左 7左上 direction方向
-    int row= grid[0]- 'A', col= grid[1]- 'a';
-    char opponent, player;
-    if(playerColor== 1){
-        opponent= 'O';
-        player= 'X';
-    }
-    else{
-        opponent= 'X';
-        player= 'O';
-    }
-    
-    int index= row* 6+ col;
-    int Xstep= 0, Ystep= 0, counttt= 0;
-    
-    if(direction== 0){ // 上
-        Xstep= -1;
-        Ystep= 0;
-    }
-    else if(direction== 1){ // 右上
-        Xstep= -1;
-        Ystep= 1;
-    }
-    else if(direction== 2){ // 右
-        Xstep= 0;
-        Ystep= 1;
-    }
-    else if(direction== 3){ // 右下
-        Xstep= 1;
-        Ystep= 1;
-    }
-    else if(direction== 4){ // 下
-        Xstep= 1;
-        Ystep= 0;
-    }
-    else if(direction== 5){ // 左下
-        Xstep= 1;
-        Ystep= -1;
-    }
-    else if(direction== 6){ // 左
-        Xstep= 0;
-        Ystep= -1;
-    }
-    else if(direction== 7){ // 左上
-        Xstep= -1;
-        Ystep= -1;
-    }
-    
-    row+= Xstep; col+= Ystep;
-    index= row* 6+ col;
-    
-    while(row>= 0&& row< 6&& col>= 0&& col< 6){
-        if(gameboard[index]== player) return counttt;
-        else if(gameboard[index]== opponent) counttt++;
-        else return 0;
-        row+= Xstep; col+= Ystep;
-        index= row* 6+ col;
-    }
-    return 0;
-}
+
 string flipPieces(string gameboard, int playerColor, string grid){
     // return 新狀態
     string newboard= gameboard;
@@ -827,7 +475,7 @@ string flipPieces(string gameboard, int playerColor, string grid){
         int step= 0;
         
         for(int d= 0; d< 8; d++){
-            int counttt= countFilpsPieces(newboard, playerColor, grid, d);
+            int counttt= countFlipPieces(newboard, playerColor, grid, d);
             if(d== 0) step= -6;
             else if(d== 1) step= -6+1;
             else if(d== 2) step= 1;
@@ -843,64 +491,6 @@ string flipPieces(string gameboard, int playerColor, string grid){
         newboard[index]= player;
     }
     return newboard;
-}
-pair<string, int> minimaxSearch(string gameboard, int playerColor, int depth, int alpha, int beta, int heuristic){
-    // return <最佳位置, 最大/小值> ex.<"Ae",-5>
-    if(depth== 0 || gameOver(gameboard))
-        return pair<string, int>("", heuristicScore(gameboard, playerColor, heuristic));
-    
-    map<string, int> hScore;
-    map<string, int>::iterator iter;
-    int opppnentColor;
-    if(playerColor== 1) opppnentColor= 2;
-    else opppnentColor= 1;
-    
-    for(int x= 0; x< 6; x++){
-        for(int y= 0; y< 6; y++){
-            if(gameboard[x*6+ y]== '+'){
-                char xChar= ('A'+ x), yChar= ('a'+ y);
-                string grid= "";
-                grid+= xChar; grid+= yChar;
-                if(isValidMove(gameboard, playerColor, grid)){
-                    string filped= flipPieces(gameboard, playerColor, grid);
-                    hScore[grid]= heuristicScore(filped, playerColor, heuristic);
-                }
-            }
-        }
-    }
-    
-    for(iter= hScore.begin(); iter!= hScore.end(); iter++){
-        string filped= flipPieces(gameboard, playerColor, iter->first);
-        iter->second= (minimaxSearch(filped, opppnentColor, depth-1, alpha, beta, heuristic)).second;
-    }
-    
-    string maxGrid= "", mingrid= "";
-    int max= -9999999, min= 9999999;
-    
-    if(depth% 2== 0){ // max node
-        for(iter= hScore.begin(); iter!= hScore.end(); iter++){
-            if(iter->second> max){
-                max= iter->second;
-                maxGrid= iter->first;
-            }
-            if(max> alpha) alpha= max;
-            if(beta<= alpha) break;
-        }
-        pair<string, int>maxNode(maxGrid, max);
-        return maxNode;
-    }
-    else{ // min node
-        for(iter= hScore.begin(); iter!= hScore.end(); iter++){
-            if(iter->second< min){
-                min= iter->second;
-                mingrid= iter->first;
-            }
-            if(min< beta) beta= min;
-            if(beta<= alpha) break;
-        }
-        pair<string, int>minNode(mingrid, min);
-        return minNode;
-    }
 }
 
 //player class
@@ -1470,8 +1060,8 @@ public:
             string action;
             UctNode* parentNode;
             vector<UctNode*> children;
-            int wins = 0;
-            int visits = 0;
+            int wins;
+            int visits;
             vector<string> unexamined;
             
             int activePlayer;
@@ -1485,7 +1075,6 @@ public:
             UctNode* addChild(OthelloBoard board, int index){
                 UctNode* node = new UctNode();
                 node->init(this, board, unexamined[index]);
-                //unexamined.erase(next(unexamined.begin(), index), next(unexamined.begin(), index+1));
                 unexamined.erase(unexamined.begin()+index, unexamined.begin()+index+1);
                 children.push_back(node);
                 return node;
@@ -1549,13 +1138,11 @@ public:
         }
         else{
             while(j != gameboard.length()){
-                if(gameboard[j] == '+' && (isVM(gameboard, player, j) == true) && depth != 0){
+                if(gameboard[j] == '+' && (isValidMove_xue(gameboard, player, j) == true) && depth != 0){
                     
                     g = gameboard;
                     //cout << "gameboard: " << gameboard << endl;
-                    for(int k = 0; k < 8; k++){
-                        g = fP(g, player, j, k); // flip
-                    }
+                    g = flipPieces_xue(g, player, j); // flip
                     if(bSearchPv){
                         val = -pvSearch(g, player==1?2:1, -beta, -alpha, depth-1).first;
                     }
@@ -1592,7 +1179,7 @@ public:
     int playerColor;
     
     string action(){
-        if(!passTurn_xue(gameboard, playerColor)) {
+        if(!passTurn(gameboard, playerColor)) {
             int index = AlphaBetaPruning(gameboard, playerColor, 10, INT_MIN, INT_MAX, true).second;
             string action = "";
             action = action + char(index/6 + 'A') + char(index%6 + 'a');
@@ -1610,8 +1197,8 @@ public:
         if (playerColor == 1)   opponentColor = 2;
         else                    opponentColor = 1;
         
-        if (depth == 0 || gameOver_xue(gameboard)) {
-            return make_pair(heuristicScore_xue(gameboard, playerColor, opponentColor), -1);
+        if (depth == 0 || gameOver(gameboard)) {
+            return make_pair(heuristicScore(gameboard, playerColor), -1);
         }
         
         if (isMaximizingPlayer) {   // max
@@ -1675,20 +1262,111 @@ public:
             return bestNode.first;
         }
     }
+    pair<string, int> minimaxSearch(string gameboard, int playerColor, int depth, int alpha, int beta, int heuristic){
+    // return <最佳位置, 最大/小值> ex.<"Ae",-5>
+    if(depth== 0 || gameOver(gameboard))
+        return pair<string, int>("", heuristicScore(gameboard, playerColor, heuristic));
+    
+    map<string, int> hScore;
+    map<string, int>::iterator iter;
+    int opppnentColor;
+    if(playerColor== 1) opppnentColor= 2;
+    else opppnentColor= 1;
+    
+    for(int x= 0; x< 6; x++){
+        for(int y= 0; y< 6; y++){
+            if(gameboard[x*6+ y]== '+'){
+                char xChar= ('A'+ x), yChar= ('a'+ y);
+                string grid= "";
+                grid+= xChar; grid+= yChar;
+                if(isValidMove(gameboard, playerColor, grid)){
+                    string filped= flipPieces(gameboard, playerColor, grid);
+                    hScore[grid]= heuristicScore(filped, playerColor, heuristic);
+                }
+            }
+        }
+    }
+    
+    for(iter= hScore.begin(); iter!= hScore.end(); iter++){
+        string filped= flipPieces(gameboard, playerColor, iter->first);
+        iter->second= (minimaxSearch(filped, opppnentColor, depth-1, alpha, beta, heuristic)).second;
+    }
+    
+    string maxGrid= "", mingrid= "";
+    int max= -9999999, min= 9999999;
+    
+    if(depth% 2== 0){ // max node
+        for(iter= hScore.begin(); iter!= hScore.end(); iter++){
+            if(iter->second> max){
+                max= iter->second;
+                maxGrid= iter->first;
+            }
+            if(max> alpha) alpha= max;
+            if(beta<= alpha) break;
+        }
+        pair<string, int>maxNode(maxGrid, max);
+        return maxNode;
+    }
+    else{ // min node
+        for(iter= hScore.begin(); iter!= hScore.end(); iter++){
+            if(iter->second< min){
+                min= iter->second;
+                mingrid= iter->first;
+            }
+            if(min< beta) beta= min;
+            if(beta<= alpha) break;
+        }
+        pair<string, int>minNode(mingrid, min);
+        return minNode;
+    }
+}
 };
 
+class RandomPlayer{
+public:
+    int playerTile;
+    
+    RandomPlayer(int playerColor){
+        playerTile= playerColor;
+    }
+    string action(string gameboard){
+        if(passTurn(gameboard, playerTile)){
+            cout<< (playerTile== 1? "(X)黑":"(O)白")<< "子沒有位置可以下了"<< endl;
+            return "pass";
+        }else{
+            vector<string> validPos;
+            for(int x= 0; x< 6; x++){
+                for(int y= 0; y< 6; y++){
+                    if(gameboard[x*6+ y]== '+'){
+                        char xChar= ('A'+ x), yChar= ('a'+ y);
+                        string grid= "";
+                        grid+= xChar; grid+= yChar;
+                        if(isValidMove(gameboard, playerTile, grid)){
+                            validPos.push_back(grid);
+                        }
+                    }
+                }
+            }
+            int num= validPos.size();
+            int randnum= rand()% num;
+            string grid= validPos[randnum];
+            // cout<< "選擇 \""<< grid<< "\""<< endl;
+            return grid;
+        }
+    }
+};
 
 //test function
 void AIvsAI(){
     string gameboard, action;
     
-    AlphaBetaPruningPlayer player1;
-    MCTSPlayer player2;
-    player2.playerColor=2;
-    player1.playerColor=1;
+    RandomPlayer player1=RandomPlayer(1);
+    MinimaxPlayer player2=MinimaxPlayer(2, 1);
+    //player2.playerColor=2;
+    //player1.playerColor=1;
     gameboard="++++++++++++++OX++++XO++++++++++++++";   //intial gameboard
-    player2.gameboard=gameboard;
-    player1.gameboard=gameboard;
+    //player2.gameboard=gameboard;
+    //player1.gameboard=gameboard;
     while(!gameOver(gameboard)){
         cout<<"player2 result: "<<endl;
         for(int i=0;i<6;i++){
@@ -1702,26 +1380,26 @@ void AIvsAI(){
             cout<<"Wait for player2."<<endl;
             //player2
             if(!passTurn(gameboard, 2)){
-                string action2=player2.action();
+                string action2=player2.action(gameboard);
                 cout<<"player2 action: "<<action2<<endl;
                 string new_board2=gameboard;
                 flipPieces(&new_board2, gameboard, 2, action2);
                 gameboard=new_board2;
-                player2.gameboard=gameboard;
-                player1.gameboard=gameboard;
+                //player2.gameboard=gameboard;
+                //player1.gameboard=gameboard;
             }else{
                 cout<<"player2 pass"<<endl;
             }
         }else{
             cout<<"Wait for player1."<<endl;
             //player1
-            string action1=player1.action();
+            string action1=player1.action(gameboard);
             cout<<"player1 action: "<<action1<<endl;
             string new_board=gameboard;
             flipPieces(&new_board, gameboard, 1, action1);
             gameboard=new_board;
-            player2.gameboard=gameboard;
-            player1.gameboard=gameboard;
+            //player2.gameboard=gameboard;
+            //player1.gameboard=gameboard;
             cout<<"player1 result: "<<endl;
             for(int i=0;i<6;i++){
                 for(int j=0;j<6;j++){
@@ -1732,13 +1410,13 @@ void AIvsAI(){
             cout<<"Wait for player2."<<endl;
             //player2
             if(!passTurn(gameboard, 2)){
-                string action2=player2.action();
+                string action2=player2.action(gameboard);
                 cout<<"player2 action: "<<action2<<endl;
                 string new_board2=gameboard;
                 flipPieces(&new_board2, gameboard, 2, action2);
                 gameboard=new_board2;
-                player2.gameboard=gameboard;
-                player1.gameboard=gameboard;
+                //player2.gameboard=gameboard;
+                //player1.gameboard=gameboard;
             }else{
                 cout<<"player2 pass"<<endl;
             }
@@ -1773,18 +1451,18 @@ void printGameboard(string gameboard){
         cout<<endl;
     }
 }
-void AIAction(AlphaBetaPruningPlayer AIplayer, string &gameboard, int AITurn){
+void AIAction(AlphaBetaPruningPlayer &AIplayer, string &gameboard, int AITurn){
     if(passTurn(gameboard, AITurn)){
-        cout<<"MCTSPlayer pass"<<endl;
+        cout<<"AlphaBetaPruningPlayer pass"<<endl;
     }else{
-        cout<<"Wait for MCTSPlayer."<<endl;
+        cout<<"Wait for AlphaBetaPruningPlayer."<<endl;
         string action2=AIplayer.action();
-        cout<<"MCTSPlayer action: "<<action2<<endl;
+        cout<<"AlphaBetaPruningPlayer action: "<<action2<<endl;
         string new_board2=gameboard;
         flipPieces(&new_board2, gameboard, AITurn, action2);
         gameboard=new_board2;
         AIplayer.gameboard=gameboard;
-        cout<<"MCTSPlayer result:"<<endl;
+        cout<<"AlphaBetaPruningPlayer result:"<<endl;
         printGameboard(gameboard);
     }
 }
@@ -1808,7 +1486,7 @@ void humanAction(string &gameboard, AlphaBetaPruningPlayer &AIplayer, int humanT
         printGameboard(gameboard);
     }
 }
-void AlphaBetaPruningPlayervsHuman(){
+void AIvsHuman(){
     string gameboard, action;
     int AIOrder=0;
     AlphaBetaPruningPlayer AIPlayer;
@@ -1862,7 +1540,7 @@ void AlphaBetaPruningPlayervsHuman(){
 int main(int argc, const char * argv[]) {
     srand (time(NULL));
     
-//    AlphaBetaPruningPlayervsHuman();
-    AIvsAI();
+    AIvsHuman();
+//    AIvsAI();
     return 0;
 }
